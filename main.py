@@ -45,4 +45,4 @@ async def chat(request: QueryRequest):
 
 @app.get("/")
 def health_check():
-    return {"status": "ok", "service": "CI/CD-is-Working-v1"}
+    return {"status": "ok", "service": "CI/CD-Final-Link-Test"}
