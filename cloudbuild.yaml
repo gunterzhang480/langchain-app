@@ -1,15 +1,13 @@
 steps:
-  # Step 1: Build the container
-  - name: 'gcr.io/k8s-skaffold/pack'
-    args:
-      - 'build'
-      - 'gcr.io/$PROJECT_ID/gemini-fastapi-service'
-      - '--builder'
-      - 'gcr.io/buildpacks/builder:v1'
-      - '--network'
-      - 'cloudbuild'
+  # Step 1: Build the container using Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/gemini-fastapi-service', '.']
 
-  # Step 2: Deploy to Cloud Run
+  # Step 2: Push the image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/gemini-fastapi-service']
+
+  # Step 3: Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -27,8 +25,5 @@ steps:
 images:
   - 'gcr.io/$PROJECT_ID/gemini-fastapi-service'
 
-timeout: '1200s' # Increase to 20 minutes
-
 options:
-  machineType: 'E2_HIGHCPU_8' # Use a much faster machine
-  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_8'
