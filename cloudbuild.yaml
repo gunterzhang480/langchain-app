@@ -22,13 +22,13 @@ steps:
       - 'us-central1'
       - '--platform'
       - 'managed'
+      - '--allow-unauthenticated'
 
 images:
   - 'gcr.io/$PROJECT_ID/gemini-fastapi-service'
 
-# This gives the build 15 minutes (900 seconds) instead of 10
-timeout: '900s'
+timeout: '1200s' # Increase to 20 minutes
 
 options:
+  machineType: 'E2_HIGHCPU_8' # Use a much faster machine
   logging: CLOUD_LOGGING_ONLY
-  machineType: 'E2_HIGHCPU_8'  
